@@ -36,6 +36,8 @@ public class PersonServices {
     }
 
     public Person update(Person person) {
+        //entity é o que ja esta no banco
+        //person é o que vc vai pegar e jogar no entity
         logger.info("Updating one person!");
         Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No Record Found For This ID "));
         entity.setFirstName(person.getFirstName());
