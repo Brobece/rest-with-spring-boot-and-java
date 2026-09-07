@@ -1,6 +1,12 @@
 package br.com.brobece.services;
 
+import br.com.brobece.data.dto.V1.PersonDTO;
+import br.com.brobece.data.dto.V2.PersonDTOV2;
 import br.com.brobece.exception.ResourceNotFoundException;
+import static br.com.brobece.mapper.ObjectMapper.parseListObject;
+import static br.com.brobece.mapper.ObjectMapper.parseObject;
+
+import br.com.brobece.mapper.custom.PersonMapper;
 import br.com.brobece.model.Person;
 import br.com.brobece.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -8,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,31 +26,52 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    public List<Person> findAll() {
+    @Autowired
+    PersonMapper converter;
+
+    public List<PersonDTO> findAll() {
         logger.info("Finding all people!");
-        return repository.findAll();
+        return parseListObject(repository.findAll(), PersonDTO.class);
     }
 
-    public Person findById(Long id) {
-        logger.info("Finding one person!");
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No Record Found For This ID "));
+    public PersonDTO findById(Long id) {
+        logger.info("Finding one Person!");
+
+        var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        return parseObject(entity, PersonDTO.class);
     }
 
-    public Person create(Person person) {
+
+    public PersonDTO create(PersonDTO person) {
         logger.info("Creating one person!");
-        return repository.save(person);
+
+        var entity = parseObject(person, Person.class);
+
+        return parseObject(repository.save(entity), PersonDTO.class);
     }
 
-    public Person update(Person person) {
+    public PersonDTOV2 createV2(PersonDTOV2 person) {
+
+        logger.info("Creating one Person V2!");
+        var entity = converter.convertDTOtoEntity(person);
+
+        return converter.convertEntityToDTO(repository.save(entity));
+    }
+
+    public PersonDTO update(PersonDTO person) {
         //entity é o que ja esta no banco
         //person é o que vc vai pegar e jogar no entity
         logger.info("Updating one person!");
-        Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceNotFoundException("No Record Found For This ID "));
+
+        Person entity = repository.findById(person.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("No Record Found For This ID "));
+
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
-        return repository.save(person);
+
+        return parseObject(repository.save(entity), PersonDTO.class);
     }
 
     public void delete(Long id) {
