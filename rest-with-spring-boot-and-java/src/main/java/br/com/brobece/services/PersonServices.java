@@ -1,12 +1,11 @@
 package br.com.brobece.services;
 
-import br.com.brobece.data.dto.V1.PersonDTO;
-import br.com.brobece.data.dto.V2.PersonDTOV2;
+import br.com.brobece.data.dto.PersonDTO;
 import br.com.brobece.exception.ResourceNotFoundException;
 import static br.com.brobece.mapper.ObjectMapper.parseListObject;
 import static br.com.brobece.mapper.ObjectMapper.parseObject;
 
-import br.com.brobece.mapper.custom.PersonMapper;
+//import br.com.brobece.mapper.custom.PersonMapper;
 import br.com.brobece.model.Person;
 import br.com.brobece.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -26,8 +25,8 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
-    @Autowired
-    PersonMapper converter;
+//    @Autowired
+//    PersonMapper converter;
 
     public List<PersonDTO> findAll() {
         logger.info("Finding all people!");
@@ -50,13 +49,6 @@ public class PersonServices {
         return parseObject(repository.save(entity), PersonDTO.class);
     }
 
-    public PersonDTOV2 createV2(PersonDTOV2 person) {
-
-        logger.info("Creating one Person V2!");
-        var entity = converter.convertDTOtoEntity(person);
-
-        return converter.convertEntityToDTO(repository.save(entity));
-    }
 
     public PersonDTO update(PersonDTO person) {
         //entity é o que ja esta no banco

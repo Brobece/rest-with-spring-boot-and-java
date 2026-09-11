@@ -3,7 +3,7 @@ package br.com.brobece.unitetests.mapper.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.brobece.data.dto.V1.PersonDTO;
+import br.com.brobece.data.dto.PersonDTO;
 import br.com.brobece.model.Person;
 
 public class MockPerson {

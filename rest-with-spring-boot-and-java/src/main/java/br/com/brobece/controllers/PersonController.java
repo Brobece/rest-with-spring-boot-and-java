@@ -1,7 +1,6 @@
 package br.com.brobece.controllers;
 
-import br.com.brobece.data.dto.V1.PersonDTO;
-import br.com.brobece.data.dto.V2.PersonDTOV2;
+import br.com.brobece.data.dto.PersonDTO;
 import br.com.brobece.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 
     @Autowired
@@ -30,11 +29,6 @@ public class PersonController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO createPerson(@RequestBody PersonDTO person) {
         return service.create(person);
-    }
-
-    @PostMapping(value = "/v2", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PersonDTOV2 createPerson(@RequestBody PersonDTOV2 person) {
-        return service.createV2(person);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

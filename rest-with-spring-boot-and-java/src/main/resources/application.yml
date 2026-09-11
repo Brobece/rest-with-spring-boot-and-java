@@ -8,7 +8,7 @@ spring:
     password: admin123
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
     show-sql: false
@@ -16,4 +16,6 @@ spring:
 logging:
   level:
     # root: WARN
+    org.flywaydb: DEBUG
+    org.springframework.boot.autoconfigure.flyway: DEBUG
     br.com.brobece: DEBUG
