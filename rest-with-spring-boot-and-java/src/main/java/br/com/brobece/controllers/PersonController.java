@@ -16,7 +16,7 @@ public class PersonController {
     @Autowired
     private PersonServices service;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public List<PersonDTO> findAll() {
         return service.findAll();
     }

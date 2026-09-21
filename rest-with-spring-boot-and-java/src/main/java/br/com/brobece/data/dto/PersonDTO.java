@@ -1,6 +1,10 @@
 package br.com.brobece.data.dto;
 
+import br.com.brobece.GenderSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -12,7 +16,9 @@ public class PersonDTO implements Serializable {
     private long id;
     private String firstName;
     private String lastName;
+    private Date birthday;
     private String address;
+    @JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
     public PersonDTO() {}
@@ -55,14 +61,22 @@ public class PersonDTO implements Serializable {
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PersonDTO person)) return false;
-        return getId() == person.getId() && Objects.equals(getFirstName(), person.getFirstName()) && Objects.equals(getLastName(), person.getLastName()) && Objects.equals(getAddress(), person.getAddress()) && Objects.equals(getGender(), person.getGender());
+        if (!(o instanceof PersonDTO personDTO)) return false;
+        return getId() == personDTO.getId() && Objects.equals(getFirstName(), personDTO.getFirstName()) && Objects.equals(getLastName(), personDTO.getLastName()) && Objects.equals(getBirthday(), personDTO.getBirthday()) && Objects.equals(getAddress(), personDTO.getAddress()) && Objects.equals(getGender(), personDTO.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getBirthday(), getAddress(), getGender());
     }
 }
