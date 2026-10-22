@@ -19,3 +19,7 @@ logging:
     org.flywaydb: DEBUG
     org.springframework.boot.autoconfigure.flyway: DEBUG
     br.com.brobece: DEBUG
+spring-doc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
